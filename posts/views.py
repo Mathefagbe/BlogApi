@@ -16,7 +16,7 @@ class BlogPostListView(ListAPIView):
     permission_classes=[IsAuthenticated]
     filter_backends=[filters.SearchFilter]
     search_fields = ['title']
-    pagination_class=DefaultPagination
+    # pagination_class=DefaultPagination
     
     def get_queryset(self):
         return BlogPost.objects.select_related('author').all()
@@ -28,7 +28,10 @@ class BlogPostDetailView(RetrieveAPIView):
 
     def get_queryset(self):
         return BlogPost.objects.select_related('author',).prefetch_related('comment','like').all()
-    
+    @swagger_auto_schema(
+    operation_summary="Get a blog post based on the slug",
+    operation_description="This returns  a blog post"
+)
     def get(self, request, *args, **kwargs):
         return get_post_status(self)
      
@@ -39,7 +42,7 @@ class BlogPostDetailView(RetrieveAPIView):
 class AuthorBlogPostView(ListCreateAPIView):
     serializer_class=PostListSerializer
     permission_classes=[IsAuthenticated]
-    pagination_class=DefaultPagination
+    # pagination_class=DefaultPagination
 
     def get_serializer_context(self):
         return {'user':self.request.user,'request':self.request}
@@ -71,7 +74,7 @@ class AuthorBlogPostUpdateRetrieveDeleteView(RetrieveUpdateDestroyAPIView):
 class BloggerProfilePostListView(ListAPIView):
     serializer_class=PostListSerializer
     permission_classes=[IsAuthenticated]
-    pagination_class=DefaultPagination
+    # pagination_class=DefaultPagination
 
     def get_queryset(self):
         bloggerPost=BlogPost.objects.filter(author=self.kwargs['id']).all()
