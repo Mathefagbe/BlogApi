@@ -16,7 +16,7 @@ from drf_yasg.utils import swagger_auto_schema
 class FollowingView(ListAPIView):
     permission_classes=[IsAuthenticated]
     serializer_class=FollowingListSerializer
-    pagination_class=DefaultPagination
+    # pagination_class=DefaultPagination
 
     def get_queryset(self):
         return Contact.objects.select_related('user_to','user_from')\
@@ -33,7 +33,7 @@ class FollowingView(ListAPIView):
 class FollowersListView(ListAPIView):
     serializer_class=FollowerListSerializer
     permission_classes=[IsAuthenticated]
-    pagination_class=DefaultPagination
+    # pagination_class=DefaultPagination
 
     def get_queryset(self):
         return Contact.objects.select_related('user_to','user_from')\
