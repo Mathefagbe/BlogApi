@@ -73,6 +73,7 @@ AUTHENTICATION_BACKENDS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
      "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
@@ -247,3 +248,8 @@ REST_KNOX = {
 #     "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
 #     "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
 # }
+
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
