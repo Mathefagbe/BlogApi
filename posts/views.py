@@ -27,7 +27,7 @@ class BlogPostDetailView(RetrieveAPIView):
     lookup_field='slug'
 
     def get_queryset(self):
-        return BlogPost.objects.select_related('author',).prefetch_related('comment','like').all()
+        return BlogPost.objects.select_related('author',).prefetch_related('comment').all()
     @swagger_auto_schema(
     operation_summary="Get a blog post based on the slug",
     operation_description="This returns  a blog post"

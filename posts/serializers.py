@@ -17,7 +17,7 @@ class BlogDetailSerializer(serializers.ModelSerializer):
         return obj.comment.count()
     
     def get_like(self,obj):
-        return obj.like.count()
+        return obj.liked_post.filter(post_id=obj).count()
 
     def get_time_ago(self,obj):
        timeAgo=timesince.timesince(obj.published_date)

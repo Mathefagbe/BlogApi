@@ -12,7 +12,7 @@ def post_with_follow_status(self,request):
     user_to=serializer.validated_data.get('user_to',None)
     current_user=get_object_or_404(User,username=self.request.user)
     followed_user=get_object_or_404(User,id=user_to.id)
-    if current_user.following.filter(id=followed_user.id).exists():
+    if current_user.login_user.filter(user_to=followed_user).exists():
         Contact.objects.filter(user_to=followed_user, user_from=current_user).delete()
         headers = self.get_success_headers(serializer.data)
         context={
@@ -26,3 +26,4 @@ def post_with_follow_status(self,request):
                  "status":"followed"
              }
         return Response(context,status=status.HTTP_201_CREATED,headers=headers)
+    pass

@@ -34,7 +34,6 @@ class BlogPost(models.Model):
     image=models.ImageField(upload_to='blogimage/%Y/%m/%d/',blank=True)
     author=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='author')
     status=models.CharField(choices=Status.choices,default=Status.Draft,max_length=2)
-    like=models.ManyToManyField(settings.AUTH_USER_MODEL, through="likes.Likes",related_name='likedpost',default=None ,blank=True,)
     slug=models.SlugField(max_length=250)
     created_date=models.DateTimeField(auto_now_add=True)
     updated_date=models.DateTimeField(auto_now=True)

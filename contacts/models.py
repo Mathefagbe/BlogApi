@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 
 class Contact(models.Model):
-    user_from=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True)
+    user_from=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,null=True,related_name='login_user')
     user_to=models.ForeignKey(settings.AUTH_USER_MODEL,related_name="user_friend",on_delete=models.CASCADE,null=True)
     created = models.DateTimeField(auto_now_add=True)
 

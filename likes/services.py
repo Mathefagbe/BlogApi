@@ -7,7 +7,7 @@ from rest_framework import status
 def like_post(self):
         post_id=self.kwargs['slug']
         post=get_object_or_404(BlogPost,slug=post_id)
-        if post.like.filter(id=self.request.user.id).exists():
+        if post.liked_post.filter(post=post,user=self.request.user).exists():
             Likes.objects.filter(post=post,user=self.request.user).delete()
             context={
                 'status':'unlike'
