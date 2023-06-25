@@ -14,6 +14,13 @@ import os
 from pathlib import Path
 from datetime import timedelta
 from rest_framework.settings import api_settings
+import dj_database_url
+
+# *******************************
+import environ
+env=environ.Env()
+environ.Env.read_env()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -113,16 +120,24 @@ WSGI_APPLICATION = 'Apis.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'railway',
-        'PORT':'7653',
-        'HOST':'containers-us-west-156.railway.app',
-        'USER':'postgres',
-        'PASSWORD':'QKjL6vhpvko3KN3uAzxf'
-    }
+    'default': dj_database_url.parse(env('DATABASE_URL'))
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'railway',
+#         'PORT':'7653',
+#         'HOST':'containers-us-west-156.railway.app',
+#         'USER':'postgres',
+#         'PASSWORD':'QKjL6vhpvko3KN3uAzxf'
+#     }
+# }
+
 
 
 # Password validation
