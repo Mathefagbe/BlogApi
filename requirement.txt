@@ -6,6 +6,7 @@ charset-normalizer==3.1.0
 coreapi==2.3.3
 coreschema==0.0.4
 cryptography==40.0.0
+dj-database-url==2.0.0
 Django==4.0
 django-cors-headers==3.14.0
 django-rest-knox==4.2.0
