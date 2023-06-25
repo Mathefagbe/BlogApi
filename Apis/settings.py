@@ -127,16 +127,7 @@ DATABASES = {
 }
 
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'railway',
-#         'PORT':'7653',
-#         'HOST':'containers-us-west-156.railway.app',
-#         'USER':'postgres',
-#         'PASSWORD':'QKjL6vhpvko3KN3uAzxf'
-#     }
-# }
+
 
 
 
