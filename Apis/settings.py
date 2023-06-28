@@ -33,7 +33,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env("DEBUG")
+DEBUG = True if env("DEBUG")=="True" else False
 
 ALLOWED_HOSTS = []
 
@@ -122,19 +122,17 @@ WSGI_APPLICATION = 'Apis.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 
-# if DEBUG:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': BASE_DIR / 'db.sqlite3',
-#         }
-#     }
-
-DATABASES = {
-        'default': dj_database_url.parse(env('DATABASE_URL'))
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-
-
+else:
+    DATABASES = {
+            'default': dj_database_url.parse(env('DATABASE_URL'))
+        }
 
 
 
@@ -185,12 +183,12 @@ AUTH_USER_MODEL='account.CustomUser'
 
 
 
-
-# MEDIA_URL="/media/"
-# MEDIA_ROOT=os.path.join(BASE_DIR,'media/')
-
-MEDIA_URL="/media/"
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+if DEBUG:
+    MEDIA_URL="/media/"
+    MEDIA_ROOT=os.path.join(BASE_DIR,'media/')
+else:
+    MEDIA_URL="/media/"
+    DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # CORS_ALLOWED_ORIGINS = [
     
