@@ -12,8 +12,11 @@ class UsersProfileView(RetrieveUpdateAPIView):
     serializer_class=UserProfileSerializer
     permission_classes=[IsAuthenticated]
 
+    def get_object(self):
+        obj = get_object_or_404(UserProfile, user=self.request.user)
+        self.check_object_permissions(self.request, obj)
+        return obj
 
-      
     @swagger_auto_schema(
     operation_summary="Get the login user profile",
     operation_description="This returns the profile of the login user"
@@ -21,20 +24,13 @@ class UsersProfileView(RetrieveUpdateAPIView):
     def get(self, request, *args, **kwargs):
         return super().get(request, *args, **kwargs)
     
-
     @swagger_auto_schema(
     operation_summary="update the login user profile",
     operation_description="This returns the updated profile of the login user"
 )
     def patch(self, request, *args, **kwargs):
         return super().patch(request, *args, **kwargs)
-    
-
-    def get_object(self):
-        obj = get_object_or_404(UserProfile, user=self.request.user)
-        self.check_object_permissions(self.request, obj)
-        return obj
-    
+ 
     def get_serializer_context(self):
         return {'request':self.request,'user':self.request.user}
 

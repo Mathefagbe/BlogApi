@@ -31,7 +31,7 @@ class BlogPost(models.Model):
         Draft='DF','Draft'
     title=models.CharField(max_length=250)
     body=models.TextField()
-    image=models.ImageField(upload_to='blogimage/%Y/%m/%d/',blank=True)
+    image=models.ImageField(upload_to='blogimage/%Y/%m/',blank=True)
     author=models.ForeignKey(settings.AUTH_USER_MODEL,on_delete=models.CASCADE,related_name='author')
     status=models.CharField(choices=Status.choices,default=Status.Draft,max_length=2)
     slug=models.SlugField(max_length=250)

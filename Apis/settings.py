@@ -35,7 +35,12 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
+
+
+RENDER_EXTERNAL_HOSTNAME = env('RENDER_EXTERNAL_HOSTNAME')
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
 
 
 # Application definition
@@ -47,6 +52,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'cloudinary_storage',
+    'cloudinary',
 
     # package
     'rest_framework',
@@ -114,17 +121,18 @@ WSGI_APPLICATION = 'Apis.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
+# if DEBUG:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': BASE_DIR / 'db.sqlite3',
+#         }
+#     }
 
 DATABASES = {
-    'default': dj_database_url.parse(env('DATABASE_URL'))
-}
+        'default': dj_database_url.parse(env('DATABASE_URL'))
+    }
 
 
 
@@ -178,9 +186,11 @@ AUTH_USER_MODEL='account.CustomUser'
 
 
 
-MEDIA_URL="/media/"
-MEDIA_ROOT=os.path.join(BASE_DIR,'media/')
+# MEDIA_URL="/media/"
+# MEDIA_ROOT=os.path.join(BASE_DIR,'media/')
 
+MEDIA_URL="/media/"
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # CORS_ALLOWED_ORIGINS = [
     
@@ -259,3 +269,9 @@ REST_KNOX = {
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME':env('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY':env('CLOUDINARY_API_KEY'),
+    'API_SECRET':env('CLOUDINARY_API_SECRET')
+}
