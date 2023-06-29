@@ -21,23 +21,27 @@ class CustomUserSerializer(UserSerializer):
 
 
 # **********************************
+
+
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    confirm_password=serializers.CharField(required=True,error_messages = {"required": "Confirm_password is required"})
     class Meta:
         model=CustomUser
         fields=['username','first_name','last_name','email','password','confirm_password']
         extra_kwargs={
             'username':{'help_text':''},
             'password':{'write_only':True,},
-            'confirm_password':{'write_only':True,},
+            'confirm_password':{'write_only':True},
+
         }
 
     def validate(self, attrs):
         attrs=super().validate(attrs)
         if attrs['password']!=attrs['confirm_password']:
             raise serializers.ValidationError({'error':"Password doesn't match"})
-        if CustomUser.objects.filter(email__iexact=attrs['email']):
+        elif CustomUser.objects.filter(email__iexact=attrs['email']):
             raise serializers.ValidationError({'error':'Email Already Exist'})
-        if CustomUser.objects.filter(username__iexact=attrs['username']):
+        elif CustomUser.objects.filter(username__iexact=attrs['username']):
                raise serializers.ValidationError({'error':'Username Already Exist'})
         return attrs
     
