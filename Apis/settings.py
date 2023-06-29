@@ -35,7 +35,7 @@ SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if env("DEBUG")=="True" else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.43.73','127.0.0.1']
 
 if not DEBUG:
     RENDER_EXTERNAL_HOSTNAME = env('RENDER_EXTERNAL_HOSTNAME')

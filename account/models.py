@@ -25,7 +25,8 @@ class CustomUser(AbstractUser):
         models.Index(fields=['id',]),
             ]
 
-
+    def __str__(self) -> str:
+        return self.username
  
    
   
