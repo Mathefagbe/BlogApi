@@ -1,11 +1,10 @@
 from django.contrib.auth import authenticate
 from rest_framework import serializers
-
-from contacts.models import Contact
 from .models import CustomUser
 from knox.serializers import UserSerializer
 from django.utils.translation import gettext_lazy as _
 from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework import serializers
 
 
 class UserImageProfile(serializers.Serializer):
@@ -22,8 +21,8 @@ class CustomUserSerializer(UserSerializer):
 
 # **********************************
 
-
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    username=serializers.CharField(required=True,error_messages = {"required": "username is required"})
     confirm_password=serializers.CharField(required=True,error_messages = {"required": "Confirm_password is required"})
     class Meta:
         model=CustomUser
@@ -38,11 +37,11 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         attrs=super().validate(attrs)
         if attrs['password']!=attrs['confirm_password']:
-            raise serializers.ValidationError({'error':"Password doesn't match"})
+            raise serializers.ValidationError({'detail':"Password doesn't match"})
         elif CustomUser.objects.filter(email__iexact=attrs['email']):
-            raise serializers.ValidationError({'error':'Email Already Exist'})
+            raise serializers.ValidationError({'detail':'Email Already Exist'})
         elif CustomUser.objects.filter(username__iexact=attrs['username']):
-               raise serializers.ValidationError({'error':'Username Already Exist'})
+               raise serializers.ValidationErrorr({'detail':'Username Already Exist'})
         return attrs
     
 
@@ -59,13 +58,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 """
 A custom Login Serializer where users login with Email And Password only
-
 """
 class LoginSerializer(AuthTokenSerializer):
     username = None
     email = serializers.CharField(
         label=_("Email"),
-        write_only=True
+        write_only=True,
+        error_messages = {"required": "email is required"}
     )
     def validate(self, attrs):
         email = attrs.get('email')
@@ -80,9 +79,11 @@ class LoginSerializer(AuthTokenSerializer):
             # backend.)
             if not user:
                 # msg = _('Unable to log in with provided credentials.')
-                raise serializers.ValidationError({'error':'login provided credentials does not exist'}, code='authorization')
+                # raise serializers.ValidationError({'detail':'login provided credentials does not exist'}, code='authorization')
+                raise serializers.ValidationError({'detail':'login provided credentials does not exist'}, code='authorization')
         else:
             msg = _('Must include "username" and "password".')
+            # raise serializers.ValidationError(msg, code='authorization')
             raise serializers.ValidationError(msg, code='authorization')
 
         attrs['user'] = user

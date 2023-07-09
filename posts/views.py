@@ -16,6 +16,7 @@ class BlogPostListView(ListAPIView):
     permission_classes=[IsAuthenticated]
     filter_backends=[filters.SearchFilter]
     search_fields = ['title']
+    
     # pagination_class=DefaultPagination
     
     def get_queryset(self):

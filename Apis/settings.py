@@ -15,6 +15,8 @@ from pathlib import Path
 from datetime import timedelta
 from rest_framework.settings import api_settings
 import dj_database_url
+from corsheaders.defaults import default_headers
+
 
 # *******************************
 import environ
@@ -77,15 +79,37 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',
                                     #    'rest_framework_simplejwt.authentication.JWTAuthentication',
                                     ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    # 'DEFAULT_THROTTLE_RATES': {
+    #     'anon': '4/minute',
+    #     'user': '4/minute',
+    # },
     
 }
-
+# CACHES = {
+#     'default': {
+#         # 'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+#         # "BACKEND":'django.core.cache.backends.filebased.FileBasedCache',
+#         #  "BACKEND":'django.core.cache.backends.dummy.DummyCache',
+#         # "BACKEND":'django.core.cache.backends.locmem.LocMemCache',
+#          "BACKEND":'django.core.cache.backends.db.DatabaseCache',
+#         # 'LOCATION':'127.0.0.1:1109'
+#         # "LOCATION":'C://'
+#         "LOCATION":'my_cache_table'
+        
+#     }
+# }
 # 'django.contrib.auth.backends.ModelBackend'
 AUTHENTICATION_BACKENDS = [
-    'account.authentication.EmailBackend'
+    # 'account.authentication.EmailBackend'
+    'django.contrib.auth.backends.ModelBackend'
 ]
 
 MIDDLEWARE = [
+    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     "whitenoise.middleware.WhiteNoiseMiddleware",
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -95,6 +119,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'Apis.urls'
@@ -190,16 +215,28 @@ else:
     MEDIA_URL="/media/"
     DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
-# CORS_ALLOWED_ORIGINS = [
-    
-#     "https://example.com",
-#     "https://sub.example.com",
-#     "http://localhost:8080",
-#     "http://127.0.0.1:8000",
-# ]
-CORS_ALLOW_ALL_ORIGINS=True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8080",
+    "http://127.0.0.1:8000",
+    "http://192.168.43.73:8000"
+]
+CORS_ALLOW_ALL_ORIGINS=False
 
+CORS_ALLOW_HEADERS=(
+    *default_headers,
+)
+CSRF_TRUSTED_ORIGINS=[
+    "http://localhost:8080",
+    "http://127.0.0.1:8000",
+    "http://192.168.43.73:8000"
 
+]
+
+if not DEBUG:
+    RENDER_EXTERNAL_HOSTNAME = env('RENDER_EXTERNAL_HOSTNAME')
+    if RENDER_EXTERNAL_HOSTNAME:
+        CORS_ALLOWED_ORIGINS.append(RENDER_EXTERNAL_HOSTNAME)
+        CSRF_TRUSTED_ORIGINS.append(RENDER_EXTERNAL_HOSTNAME)
 
 SWAGGER_SETTINGS = {
    'SECURITY_DEFINITIONS': {
@@ -219,6 +256,7 @@ REST_KNOX = {
   'TOKEN_LIMIT_PER_USER': None,
   'AUTO_REFRESH': False,
   'EXPIRY_DATETIME_FORMAT': api_settings.DATETIME_FORMAT,
+  'AUTH_HEADER_PREFIX': 'Bearer'
 }
 
 
@@ -273,3 +311,27 @@ CLOUDINARY_STORAGE = {
     'API_KEY':env('CLOUDINARY_API_KEY'),
     'API_SECRET':env('CLOUDINARY_API_SECRET')
 }
+
+
+SECURE_BROWSER_XSS_FILTER=True
+SECURE_CONTENT_TYPE_NOSNIFF=True
+CSRF_COOKIE_SECURE=True
+SESSION_COOKIE_SECURE=True
+SECURE_HSTS_SECONDS = 1576800
+X_FRAME_OPTIONS='DENY'
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+
+
+# SECURE_SSL_REDIRECT = True
+
+CSP_DEFAULT_SRC=("'self'",'none')
+CSP_STYLE_SRC=("'self'",)
+CSP_SCRIPT_SRC=("'self'",)
+CSP_IMG_SRC=("'self'",)
+CSP_FONT_SRC=("'self'",)
+CSP_MEDIA_SRC=("'self'",)
+CSP_BASE_URI=("'self'",)
+
+

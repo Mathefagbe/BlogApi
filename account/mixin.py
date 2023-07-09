@@ -2,6 +2,8 @@ from datetime import timezone
 from rest_framework.permissions import AllowAny
 from knox.views import LoginView as KnoxLoginView
 from django.contrib.auth import login
+
+from utilis.apiexception import error_handler
 from .serializers import LoginSerializer
 from rest_framework.response import Response
 from knox.models import AuthToken
@@ -13,11 +15,16 @@ class LoginMixin(KnoxLoginView):
     permission_classes = (AllowAny,)
     
     def get_user_token(self, request, format=None):
-        serializer = LoginSerializer(data=request.data)
-        if serializer.is_valid(raise_exception=True):
-            user = serializer.validated_data['user']
-            login(request, user)
-            return self.post_user(request, format=None)
+        try:
+            serializer = LoginSerializer(data=request.data)
+            if serializer.is_valid(raise_exception=True):
+                user = serializer.validated_data['user']
+                login(request, user)
+        except Exception as e:
+            return Response(data={
+                  'detail':error_handler(e)
+             },status=status.HTTP_400_BAD_REQUEST)
+        return self.post_user(request, format=None)
     
     def post_user(self, request, format=None):
         token_limit_per_user = super().get_token_limit_per_user()
