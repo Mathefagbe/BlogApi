@@ -20,6 +20,8 @@ To run the Blog API locally, follow these steps:
   * for windows `python3 -m venv env env/scripts/activate`
 * Install the project dependencies:
   `pip install -r requirement.txt`
+* Make migrations:
+ `python manage.py makemigrations`
 * Apply database migrations:
   `python manage.py migrate`
 * Create a super admin:
