@@ -12,9 +12,9 @@ This repository contains a Django REST Framework-based API for managing blog pos
 ## **Installation**
 To run the Blog API locally, follow these steps:
 * Clone the repository:
-  `git clone https://github.com/your-username/blog-api.git`
+  `git clone https://github.com/mathefagbe/blogApi.git`
 * Navigate to the project directory:
-  `cd blog-api`
+  `cd blogApi`
 * Create and activate a virtual environment:
   * for mac `python3 -m venv env source env/bin/activate`
   * for windows `python3 -m venv env env/scripts/activate`
