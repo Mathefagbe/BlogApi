@@ -1,4 +1,4 @@
-**Blog API - Readme**
+## **Blog API - Readme**
 This repository contains a Django REST Framework-based API for managing blog posts. The API allows authenticated users to create, read, update, and delete blog post, as well as perform various operations related to user authentication and authorization.
 
 ## **Features**
