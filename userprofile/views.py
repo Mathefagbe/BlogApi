@@ -8,9 +8,10 @@ from drf_yasg.utils import swagger_auto_schema
 # Create your views here.
 
 
-class UsersProfileView(RetrieveUpdateAPIView):
+class UserProfileView(RetrieveUpdateAPIView):
     serializer_class=UserProfileSerializer
     permission_classes=[IsAuthenticated]
+    http_method_names=['get','patch']
 
     def get_object(self):
         obj = get_object_or_404(UserProfile, user=self.request.user)
@@ -37,7 +38,7 @@ class UsersProfileView(RetrieveUpdateAPIView):
 
 
 
-class SingleAuthorProfileView(RetrieveAPIView):
+class AuthorProfileView(RetrieveAPIView):
     queryset=UserProfile.objects.all()
     serializer_class=SingleUserSerializer
     permission_classes=[IsAuthenticated]

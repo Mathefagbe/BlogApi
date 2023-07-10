@@ -8,21 +8,23 @@ from .selector import get_post_status
 from rest_framework import filters
 from .pagination import DefaultPagination
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.throttling import UserRateThrottle
 
 
 
-class BlogPostListView(ListAPIView):
+class PostListView(ListAPIView):
     serializer_class=PostListSerializer
     permission_classes=[IsAuthenticated]
     filter_backends=[filters.SearchFilter]
     search_fields = ['title']
+    
     
     # pagination_class=DefaultPagination
     
     def get_queryset(self):
         return BlogPost.objects.select_related('author').all()
     
-class BlogPostDetailView(RetrieveAPIView):
+class PostDetailView(RetrieveAPIView):
     serializer_class=BlogDetailSerializer
     permission_classes=[IsAuthenticated]
     lookup_field='slug'
@@ -40,7 +42,7 @@ class BlogPostDetailView(RetrieveAPIView):
         return {'request':self.request,'slug':self.kwargs[self.lookup_field]}
     
 
-class AuthorBlogPostView(ListCreateAPIView):
+class UserPostView(ListCreateAPIView):
     serializer_class=PostListSerializer
     permission_classes=[IsAuthenticated]
     # pagination_class=DefaultPagination
@@ -59,7 +61,7 @@ class AuthorBlogPostView(ListCreateAPIView):
         return super().get(request, *args, **kwargs)
     
  
-class AuthorBlogPostUpdateRetrieveDeleteView(RetrieveUpdateDestroyAPIView):
+class UserPostUpdateRetrieveDeleteView(RetrieveUpdateDestroyAPIView):
     serializer_class=PostListSerializer
     permission_classes=[IsAuthenticated]
     lookup_field='slug'
@@ -72,7 +74,7 @@ class AuthorBlogPostUpdateRetrieveDeleteView(RetrieveUpdateDestroyAPIView):
         return userpost
     
 
-class BloggerProfilePostListView(ListAPIView):
+class AuthorPostListView(ListAPIView):
     serializer_class=PostListSerializer
     permission_classes=[IsAuthenticated]
     # pagination_class=DefaultPagination

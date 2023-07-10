@@ -1,8 +1,8 @@
 from django.contrib import admin
 from django.urls import path
-from .views import UsersProfileView,SingleAuthorProfileView
+from .views import UserProfileView,AuthorProfileView
 
 urlpatterns = [
-    path('profile/',UsersProfileView.as_view(),name='userprofile'),
-    path('profile/<id>',SingleAuthorProfileView.as_view(),name='author_retrive')
+    path('profile/',UserProfileView.as_view(),name='userprofile'),
+    path('profile/<id>',AuthorProfileView.as_view(),name='author_retrive')
 ]

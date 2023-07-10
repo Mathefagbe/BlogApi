@@ -41,7 +41,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         elif CustomUser.objects.filter(email__iexact=attrs['email']):
             raise serializers.ValidationError({'detail':'Email Already Exist'})
         elif CustomUser.objects.filter(username__iexact=attrs['username']):
-               raise serializers.ValidationErrorr({'detail':'Username Already Exist'})
+               raise serializers.ValidationError({'detail':'Username Already Exist'})
         return attrs
     
 
