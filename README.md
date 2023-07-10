@@ -8,7 +8,7 @@ This repository contains a Django REST Framework-based API for managing blog pos
 * searching post: Users can search posts based on the post title.
 * Commenting: Users can add comments to blog posts.
 * Permissions and Authorization: The API includes role-based permissions to control access to certain actions and resources.
-* follower:A users can follow eachother
+* follower system: A users can follow eachother
 ## **Installation**
 To run the Blog API locally, follow these steps:
 * Clone the repository:
