@@ -50,8 +50,9 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             **validated_data
         )
         user.set_password(validated_data['password'])
-        user.save()
         user.confirm_password=user.password
+        user.save()
+        # user.confirm_password=user.password
         return user
     
 

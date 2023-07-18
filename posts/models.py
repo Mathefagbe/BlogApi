@@ -3,6 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.utils.text import slugify
 import secrets
+from tinymce import models as tinymce_models
 
 # Create your models here.
 

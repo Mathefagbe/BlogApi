@@ -31,7 +31,7 @@ class PostListSerializer(serializers.ModelSerializer):
     time_ago=serializers.SerializerMethodField()
     class Meta:
         model=BlogPost
-        fields=['author','title','image','slug','time_ago',]
+        fields=['author','title','image','body','slug','time_ago',]
         extra_kwargs={
             'slug':{
             'read_only':True,

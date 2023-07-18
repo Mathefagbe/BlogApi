@@ -11,9 +11,6 @@ class CustomUser(AbstractUser):
     REQUIRED_FIELDS=['username']
     USERNAME_FIELD='email'
   
-   
-  
-
     class Meta:
         indexes = [
         models.Index(fields=['id',]),

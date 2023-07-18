@@ -25,12 +25,11 @@ def get_follower_list(self):
         page = self.paginate_queryset(queryset)
         following=[]
         for follower in queryset:
-            print(follower.user_to)
             if self.request.user== follower.user_from:
                 serializer = self.get_serializer(follower) 
                 context=dict(zip(['user_from','status'],[serializer.data['user_from'],'hide'])) 
                 following.append(context)
-            elif self.request.user.login_user.filter(Q(user_to=follower.user_from) | Q(user_to=follower.user_to)).exclude(user_from=self.request.user).exists():
+            elif self.request.user.login_user.filter(Q(user_to=follower.user_from) | Q(user_to=follower.user_to)).exists():
                 serializer = self.get_serializer(follower) 
                 context=dict(zip(['user_from','status'],[serializer.data['user_from'],'following'])) 
                 following.append(context)
