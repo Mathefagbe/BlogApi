@@ -52,7 +52,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
         user.confirm_password=user.password
         user.save()
-        # user.confirm_password=user.password
         return user
     
 
@@ -74,13 +73,7 @@ class LoginSerializer(AuthTokenSerializer):
         if email and password:
             user = authenticate(request=self.context.get('request'),
                                 username=email, password=password)
-
-            # The authenticate call simply returns None for is_active=False
-            # users. (Assuming the default ModelBackend authentication
-            # backend.)
             if not user:
-                # msg = _('Unable to log in with provided credentials.')
-                # raise serializers.ValidationError({'detail':'login provided credentials does not exist'}, code='authorization')
                 raise serializers.ValidationError({'detail':'login provided credentials does not exist'}, code='authorization')
         else:
             msg = _('Must include "username" and "password".')

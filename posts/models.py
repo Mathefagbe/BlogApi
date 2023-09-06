@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.conf import settings
 from django.utils.text import slugify
 import secrets
-from tinymce import models as tinymce_models
+
 
 # Create your models here.
 
@@ -22,11 +22,8 @@ class PusblisedManager(models.Manager):
     def get_queryset(self):
         return super().get_queryset().filter(status=BlogPost.Status.Published)
 
-
-
 #creating a blogpost
 class BlogPost(models.Model):
-
     class Status(models.TextChoices):
         Published='PB','Pusblished'
         Draft='DF','Draft'

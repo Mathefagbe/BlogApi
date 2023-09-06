@@ -11,7 +11,8 @@ class BlogDetailSerializer(serializers.ModelSerializer):
     time_ago=serializers.SerializerMethodField()
     class Meta:
         model=BlogPost
-        fields=['author','title','body','image','slug','comment_count','like','time_ago']
+        fields=['author','title','body','image','slug',
+                'comment_count','like','time_ago']
 
     def get_comment_count(self,obj):
         return obj.comment.count()
@@ -25,7 +26,6 @@ class BlogDetailSerializer(serializers.ModelSerializer):
        return  f"{formatedTime} ago"
      
         
-
 class PostListSerializer(serializers.ModelSerializer):
     author=CustomUserSerializer(read_only=True)
     time_ago=serializers.SerializerMethodField()

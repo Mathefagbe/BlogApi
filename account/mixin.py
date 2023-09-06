@@ -18,7 +18,7 @@ class LoginMixin(KnoxLoginView):
         try:
             serializer = LoginSerializer(data=request.data)
             if serializer.is_valid(raise_exception=True):
-                user = serializer.validated_data['user']
+                user = serializer.validated_data['user']         
                 login(request, user)
         except Exception as e:
             return Response(data={
@@ -41,5 +41,5 @@ class LoginMixin(KnoxLoginView):
         user_logged_in.send(sender=request.user.__class__,
                             request=request, user=request.user)
         data = super().get_post_response_data(request, token, instance)
-        return Response(data,status=status.HTTP_201_CREATED)
+        return Response(data,status=status.HTTP_200_OK)
     

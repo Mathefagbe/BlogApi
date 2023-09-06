@@ -1,8 +1,7 @@
 from rest_framework.generics import CreateAPIView
-from .serializers import UserRegistrationSerializer
+from .serializers import UserRegistrationSerializer,LoginSerializer
 from rest_framework.permissions import IsAuthenticated
-from knox.views import LogoutView as KnoxLogoutView
-from django.contrib.auth.signals import user_logged_out
+from knox.views import LogoutAllView as KnoxLogoutView
 from .mixin import LoginMixin
 from drf_yasg.utils import swagger_auto_schema
 from utilis.apiexception import error_handler
@@ -12,10 +11,10 @@ from rest_framework import status
 
 
 class LoginView(LoginMixin):
-    
     @swagger_auto_schema(
-            operation_summary='login with user credentials',
-            operation_description="This returns a token after user have been authenticated"
+            operation_summary='login with user credentials using email and password',
+            operation_description="This returns a token after user have been authenticated",
+            request_body=LoginSerializer
     )
     def post(self, request, format=None):
         return super().get_user_token(request)
@@ -44,12 +43,6 @@ class UserSignupApiView(LoginMixin,
 class LogoutView(KnoxLogoutView):
     permission_classes = (IsAuthenticated,)
 
-
-
-# class UserListApiView(ListAPIView):
-#     queryset=CustomUser.objects.all()
-#     serializer_class=CustomUserSerializer
-#     permission_classes=[IsAuthenticated]
 
     
 
