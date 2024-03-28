@@ -9,7 +9,7 @@ This repository contains a Django REST Framework-based API for managing blog pos
 * Commenting: Users can add comments to blog posts.
 * Permissions and Authorization: The API includes role-based permissions to control access to certain actions and resources.
 * follower system: A users can follow eachother
-* Creating Post using TINYMCE Editor to create the Body
+* Creating Post Using TINYMCE EDITOR to create Html body for the post
 ## **Installation**
 To run the Blog API locally, follow these steps:
 * Clone the repository:
