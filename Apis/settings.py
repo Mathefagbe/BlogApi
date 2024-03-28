@@ -157,7 +157,15 @@ if DEBUG:
     }
 else:
     DATABASES = {
-            'default': dj_database_url.parse(env('DATABASE_URL'))
+            # 'default': dj_database_url.parse(env('DATABASE_URL'))
+            'default': {
+                'ENGINE': 'django.db.backends.mysql',
+                'NAME': 'mydb',
+                'USER': 'root',
+                'PASSWORD': 'testing1234*',
+                'HOST':'localhost',
+                'PORT':'3306',
+            }
         }
 
 
@@ -314,26 +322,6 @@ CLOUDINARY_STORAGE = {
 }
 
 
-# SECURE_BROWSER_XSS_FILTER=True
-# SECURE_CONTENT_TYPE_NOSNIFF=True
-# CSRF_COOKIE_SECURE=True
-# SESSION_COOKIE_SECURE=True
-# SECURE_HSTS_SECONDS = 1576800
-# X_FRAME_OPTIONS='DENY'
-
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_HSTS_PRELOAD = True
-
-
-# SECURE_SSL_REDIRECT = True
-
-# CSP_DEFAULT_SRC=("'self'",'none')
-# CSP_STYLE_SRC=("'self'",)
-# CSP_SCRIPT_SRC=("'self'",)
-# CSP_IMG_SRC=("'self'",)
-# CSP_FONT_SRC=("'self'",)
-# CSP_MEDIA_SRC=("'self'",)
-# CSP_BASE_URI=("'self'",)
 
 TINYMCE_DEFAULT_CONFIG = {
     "height": "500px",
